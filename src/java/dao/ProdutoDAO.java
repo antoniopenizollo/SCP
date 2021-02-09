@@ -5,44 +5,67 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.Produto;
+
 /**
  *
  * @author anton
  */
-public class ProdutoDAO {
-    private Integer codigo;
-    private String nome;
-    private Float preco;
+public class ProdutoDAO extends DAO {
 
-    public ProdutoDAO(Integer codigo, String nome, Float preco) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.preco = preco;
+    private static ProdutoDAO instancia = new ProdutoDAO();
+
+    public static ProdutoDAO getInstancia() {
+        return instancia;
     }
 
-    public Integer getCodigo() {
-        return codigo;
+    private ProdutoDAO() {
     }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
+    public Produto obterCliente(int codCliente) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        Produto produto = null;
+
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from produto where codigo" + codCliente);
+            rs.first();
+            produto = instanciarProduto(rs);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return produto;
     }
 
-    public String getNome() {
-        return nome;
+    public List<Produto> obterCliente() throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Produto> clientes = new ArrayList<Produto>();
+        Produto produto = null;
+
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from produto");
+            rs.first();
+            produto = instanciarProduto(rs);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return clientes;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public Produto instanciarProduto(ResultSet rs) throws SQLException {
+        Produto produto = new Produto(rs.getInt("codigo"),
+                rs.getString("nome"), rs.getFloat("preco"));
+        return produto;
     }
-
-    public Float getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Float preco) {
-        this.preco = preco;
-    }
-    
-    
 }
