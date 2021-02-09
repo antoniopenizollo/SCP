@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -67,5 +68,20 @@ public class ClienteDAO extends DAO {
         Cliente cliente = new Cliente(rs.getInt("codigo"),
                 rs.getString("nome"), rs.getString("email"));
         return cliente;
+    }
+    
+    public void gravar(Cliente cliente) throws ClassNotFoundException, SQLException{
+        Connection conexao = null;
+        PreparedStatement comando = null;
+        try{
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.prepareStatement("insert into cliente (codigo,nome,email) values (?,?,?)");
+            comando.setInt(1, cliente.getCodigo());
+            comando.setString(2,cliente.getNome());
+            comando.setString(3,cliente.getEmail());
+            comando.executeUpdate();
+        }finally{
+            fecharConexao(conexao, comando);
+        }
     }
 }
