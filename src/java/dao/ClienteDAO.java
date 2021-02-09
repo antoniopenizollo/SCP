@@ -52,7 +52,7 @@ public class ClienteDAO extends DAO {
         List<Cliente> clientes = new ArrayList<Cliente>();
         Cliente cliente = null;
 
-        try{
+        try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from cliente");
@@ -69,18 +69,34 @@ public class ClienteDAO extends DAO {
                 rs.getString("nome"), rs.getString("email"));
         return cliente;
     }
-    
-    public void gravar(Cliente cliente) throws ClassNotFoundException, SQLException{
+
+    public void gravar(Cliente cliente) throws ClassNotFoundException, SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
-        try{
+        try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.prepareStatement("insert into cliente (codigo,nome,email) values (?,?,?)");
             comando.setInt(1, cliente.getCodigo());
-            comando.setString(2,cliente.getNome());
-            comando.setString(3,cliente.getEmail());
+            comando.setString(2, cliente.getNome());
+            comando.setString(3, cliente.getEmail());
             comando.executeUpdate();
-        }finally{
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+    }
+
+    public void alterar(Cliente cliente) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        String stringSQL = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            stringSQL = "update cliente set "
+                    + "nome = '" + cliente.getNome() + "', "
+                    + "email = " + cliente.getEmail() + "', "
+                    + "where codigo = " + cliente.getCodigo();
+            comando.execute(stringSQL);
+        } finally {
             fecharConexao(conexao, comando);
         }
     }
