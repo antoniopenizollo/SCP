@@ -5,10 +5,67 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.Cliente;
+
 /**
  *
  * @author anton
  */
-public class ClienteDAO {
-    
+public class ClienteDAO extends DAO {
+
+    private static ClienteDAO instancia = new ClienteDAO();
+
+    public static ClienteDAO getInstancia() {
+        return instancia;
+    }
+
+    private ClienteDAO() {
+    }
+
+    public Cliente obterCliente(int codCliente) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        Cliente cliente = null;
+
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from cliente where codigo" + codCliente);
+            rs.first();
+            cliente = instanciarCliente(rs);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return cliente;
+    }
+
+    public List<Cliente> obterCliente() throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Cliente> clientes = new ArrayList<Cliente>();
+        Cliente cliente = null;
+
+        try{
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from cliente");
+            rs.first();
+            cliente = instanciarCliente(rs);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return clientes;
+    }
+
+    public Cliente instanciarCliente(ResultSet rs) throws SQLException {
+        Cliente cliente = new Cliente(rs.getInt("codigo"),
+                rs.getString("nome"), rs.getString("email"));
+        return cliente;
+    }
 }
