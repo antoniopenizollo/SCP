@@ -5,10 +5,17 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author anton
  */
 public class DAO {
-    
+    public void fecharConexao(Connection conexao,Statement comando) throws SQLException{
+        if(comando != null) comando.close();
+        if(conexao != null) conexao.close();
+    }
 }
