@@ -100,4 +100,18 @@ public class ClienteDAO extends DAO {
             fecharConexao(conexao, comando);
         }
     }
+    
+    public void excluir(Cliente cliente) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        String stringSQL = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            stringSQL = "delete from cliente where codigo = "
+                    + cliente.getCodigo();
+            comando.execute(stringSQL);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+    }
 }
