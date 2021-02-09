@@ -75,7 +75,7 @@ public class ProdutoDAO extends DAO {
         PreparedStatement comando = null;
         try{
             conexao = BD.getInstancia().getConecao();
-            comando = conexao.prepareStatement("insert into cliente (codigo,nome,preco) values (?,?,?)");
+            comando = conexao.prepareStatement("insert into produto (codigo,nome,preco) values (?,?,?)");
             comando.setInt(1, produto.getCodigo());
             comando.setString(2,produto.getNome());
             comando.setFloat(3,produto.getPreco());
