@@ -84,4 +84,34 @@ public class ProdutoDAO extends DAO {
             fecharConexao(conexao, comando);
         }
     }
+     
+     public void alterar(Produto produto) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        String stringSQL = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            stringSQL = "update produto set "
+                    + "nome = '" + produto.getNome() + "', "
+                    + "preco = " + produto.getPreco()+ "', "
+                    + "where codigo = " + produto.getCodigo();
+            comando.execute(stringSQL);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+    }
+    
+    public void excluir(Produto produto) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        String stringSQL = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            stringSQL = "delete from produto where codigo = "
+                    + produto.getCodigo();
+            comando.execute(stringSQL);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+    }
 }
