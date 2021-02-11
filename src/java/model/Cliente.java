@@ -5,6 +5,10 @@
  */
 package model;
 
+import dao.ClienteDAO;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author anton
@@ -19,6 +23,10 @@ public class Cliente {
         this.codigo = codigo;
         this.nome = nome;
         this.email = email;
+    }
+    
+    public static List<Cliente> obterClientes() throws ClassNotFoundException, SQLException {
+        return ClienteDAO.getInstancia().obterCliente();
     }
 
     public Integer getCodigo() {
