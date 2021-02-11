@@ -4,9 +4,17 @@
         <servlet-name>PesquisaClienteController</servlet-name>
         <servlet-class>controller.PesquisaClienteController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PesquisaProdutoController</servlet-name>
+        <servlet-class>controller.PesquisaProdutoController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PesquisaClienteController</servlet-name>
         <url-pattern>/PesquisaClienteController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PesquisaProdutoController</servlet-name>
+        <url-pattern>/PesquisaProdutoController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
