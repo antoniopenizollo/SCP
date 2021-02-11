@@ -29,7 +29,7 @@ public class ProdutoDAO extends DAO {
     private ProdutoDAO() {
     }
 
-    public Produto obterCliente(int codCliente) throws ClassNotFoundException, SQLException {
+    public Produto obterProduto(int codProduto) throws ClassNotFoundException, SQLException {
         Connection conexao = null;
         Statement comando = null;
         Produto produto = null;
@@ -37,7 +37,7 @@ public class ProdutoDAO extends DAO {
         try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.createStatement();
-            ResultSet rs = comando.executeQuery("select * from produto where codigo" + codCliente);
+            ResultSet rs = comando.executeQuery("select * from produto where codigo" + codProduto);
             rs.first();
             produto = instanciarProduto(rs);
         } finally {
@@ -46,22 +46,24 @@ public class ProdutoDAO extends DAO {
         return produto;
     }
 
-    public List<Produto> obterCliente() throws ClassNotFoundException, SQLException {
+    public List<Produto> obterProduto() throws ClassNotFoundException, SQLException {
         Connection conexao = null;
         Statement comando = null;
-        List<Produto> clientes = new ArrayList<Produto>();
+        List<Produto> produtos = new ArrayList<Produto>();
         Produto produto = null;
 
         try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from produto");
-            rs.first();
-            produto = instanciarProduto(rs);
+            while(rs.next()){
+                produto = instanciarProduto(rs);
+                produtos.add(produto);
+            }
         } finally {
             fecharConexao(conexao, comando);
         }
-        return clientes;
+        return produtos;
     }
 
     public Produto instanciarProduto(ResultSet rs) throws SQLException {
