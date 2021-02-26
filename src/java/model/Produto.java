@@ -24,6 +24,10 @@ public class Produto {
         this.preco = preco;
     }
     
+     public static Produto obterProduto(Produto produto) throws ClassNotFoundException, SQLException {
+        return ProdutoDAO.getInstancia().obterProduto(produto.codigo);
+    }
+    
     public static List<Produto> obterProdutos() throws ClassNotFoundException, SQLException {
         return ProdutoDAO.getInstancia().obterProduto();
     }

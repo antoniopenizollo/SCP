@@ -28,6 +28,10 @@ public class Cliente {
     public static List<Cliente> obterClientes() throws ClassNotFoundException, SQLException {
         return ClienteDAO.getInstancia().obterCliente();
     }
+    
+    public static Cliente obterClientes(int codCliente) throws ClassNotFoundException, SQLException {
+        return ClienteDAO.getInstancia().obterCliente(codCliente);
+    }
 
     public Integer getCodigo() {
         return codigo;
