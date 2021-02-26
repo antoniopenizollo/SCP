@@ -37,9 +37,10 @@ public class ClienteDAO extends DAO {
         try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.createStatement();
-            ResultSet rs = comando.executeQuery("select * from cliente where codigo" + codCliente);
-            rs.first();
-            cliente = instanciarCliente(rs);
+            ResultSet rs = comando.executeQuery("select * from cliente where codigo = " + codCliente);
+            while(rs.next()){
+                cliente = instanciarCliente(rs);
+            }
         } finally {
             fecharConexao(conexao, comando);
         }
