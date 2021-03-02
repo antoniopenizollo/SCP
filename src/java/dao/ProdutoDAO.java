@@ -37,9 +37,11 @@ public class ProdutoDAO extends DAO {
         try {
             conexao = BD.getInstancia().getConecao();
             comando = conexao.createStatement();
-            ResultSet rs = comando.executeQuery("select * from produto where codigo" + codProduto);
-            rs.first();
-            produto = instanciarProduto(rs);
+            ResultSet rs = comando.executeQuery("select * from produto where codigo = " + codProduto);
+             while(rs.next()){
+                produto = instanciarProduto(rs);
+            }
+
         } finally {
             fecharConexao(conexao, comando);
         }
