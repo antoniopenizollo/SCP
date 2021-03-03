@@ -34,10 +34,10 @@ public class ManterProdutoController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         String acao = request.getParameter("acao");
         if (acao.equals("confirmarOperacao")) {
-
+            confirmarOperacao(request, response);
         } else {
             if (acao.equals("prepararOperacao")) {
                 prepararOperacao(request, response);
@@ -65,11 +65,29 @@ public class ManterProdutoController extends HttpServlet {
         }
     }
     
-    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response){
+    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException{
         String operacao = request.getParameter("operacao");
         int codigo = Integer.parseInt(request.getParameter("txtCodProduto"));
         String nome = request.getParameter("txtNomeProduto");
         Float preco = Float.parseFloat(request.getParameter("txtPrecoProduto"));
+        try {
+            Produto produto = new Produto(codigo, nome, preco);
+            if (operacao.equals("Incluir")) {
+                produto.gravar();
+            } else {
+                if (operacao.equals("Editar")) {
+                    produto.alterar();
+                } else {
+                    if (operacao.equals("Excluir")) {
+                        produto.excluir();
+                    }
+                }
+            }
+            RequestDispatcher view = request.getRequestDispatcher("PesquisaProdutoController");
+            view.forward(request, response);
+        } catch (IOException e) {
+            throw new ServletException(e);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -88,6 +106,8 @@ public class ManterProdutoController extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ManterProdutoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManterProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -105,6 +125,8 @@ public class ManterProdutoController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(ManterProdutoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManterProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

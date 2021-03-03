@@ -95,9 +95,10 @@ public class ProdutoDAO extends DAO {
         String stringSQL = null;
         try {
             conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
             stringSQL = "update produto set "
                     + "nome = '" + produto.getNome() + "', "
-                    + "preco = " + produto.getPreco()+ "', "
+                    + "preco = " + produto.getPreco()+ " "
                     + "where codigo = " + produto.getCodigo();
             comando.execute(stringSQL);
         } finally {
@@ -111,6 +112,7 @@ public class ProdutoDAO extends DAO {
         String stringSQL = null;
         try {
             conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
             stringSQL = "delete from produto where codigo = "
                     + produto.getCodigo();
             comando.execute(stringSQL);

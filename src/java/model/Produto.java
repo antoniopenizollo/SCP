@@ -31,6 +31,18 @@ public class Produto {
     public static List<Produto> obterProdutos() throws ClassNotFoundException, SQLException {
         return ProdutoDAO.getInstancia().obterProduto();
     }
+    
+     public void gravar() throws ClassNotFoundException, SQLException{
+        ProdutoDAO.getInstancia().gravar(this);
+    }
+    
+    public void alterar() throws ClassNotFoundException, SQLException{
+        ProdutoDAO.getInstancia().alterar(this);
+    }
+    
+    public void excluir() throws ClassNotFoundException, SQLException{
+        ProdutoDAO.getInstancia().excluir(this);
+    }
 
     public Integer getCodigo() {
         return codigo;
