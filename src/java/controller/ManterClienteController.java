@@ -32,27 +32,25 @@ public class ManterClienteController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         String acao = request.getParameter("acao");
-        if(acao.equals("confirmarOperacao")){
-            
-        }else {
-            if(acao.equals("prepararOperacao")){
+        if (acao.equals("confirmarOperacao")) {
+            confirmarOperacao(request, response);
+        } else {
+            if (acao.equals("prepararOperacao")) {
                 prepararOperacao(request, response);
             }
         }
-    };
-    
-     public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws SQLException{
+    }
+
+    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
-            if(!operacao.equals("Incluir")){
+            if (!operacao.equals("Incluir")) {
                 int codCliente = Integer.parseInt(request.getParameter("codCliente"));
-                Cliente  cliente = Cliente.obterClientes(codCliente);
+                Cliente cliente = Cliente.obterClientes(codCliente);
                 request.setAttribute("cliente", cliente);
             }
             RequestDispatcher view = request.getRequestDispatcher("/manterCliente.jsp");
@@ -63,6 +61,33 @@ public class ManterClienteController extends HttpServlet {
             Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, ClassNotFoundException, SQLException {
+
+        String operacao = request.getParameter("operacao");
+        int codigo = Integer.parseInt(request.getParameter("txtCodCliente"));
+        String nome = request.getParameter("txtNomeCliente");
+        String email = request.getParameter("txtEmailCliente");
+
+        try {
+            Cliente cliente = new Cliente(codigo, nome, email);
+            if (operacao.equals("Incluir")) {
+                cliente.gravar();
+            } else {
+                if (operacao.equals("Editar")) {
+                    cliente.alterar();
+                } else {
+                    if (operacao.equals("Excluir")) {
+                        cliente.excluir();
+                    }
+                }
+            }
+            RequestDispatcher view = request.getRequestDispatcher("PesquisaClienteController");
+            view.forward(request, response);
+        } catch (IOException e) {
+            throw new ServletException(e);
         }
     }
 
@@ -82,6 +107,8 @@ public class ManterClienteController extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,6 +126,8 @@ public class ManterClienteController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

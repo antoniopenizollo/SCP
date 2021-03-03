@@ -45,9 +45,7 @@ public class ManterProdutoController extends HttpServlet {
         }
     }
 
-    ;
-    
-         public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    public void prepararOperacao(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         try {
             String operacao = request.getParameter("operacao");
             request.setAttribute("operacao", operacao);
@@ -65,6 +63,13 @@ public class ManterProdutoController extends HttpServlet {
         } catch (IOException ex) {
             Logger.getLogger(ManterClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void confirmarOperacao(HttpServletRequest request, HttpServletResponse response){
+        String operacao = request.getParameter("operacao");
+        int codigo = Integer.parseInt(request.getParameter("txtCodProduto"));
+        String nome = request.getParameter("txtNomeProduto");
+        Float preco = Float.parseFloat(request.getParameter("txtPrecoProduto"));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

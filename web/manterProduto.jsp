@@ -35,12 +35,12 @@
                 <div class="col-sm-8">
                     <form action="ManterProdutoController?acao=confirmarOperacao&operacao=${operacao}" method="post" name="frmManterProduto">
                         <div class="form-group">
-                            <label for=""txtCodCliente>Código do produto</label>
+                            <label for=""txtCodProduto>Código do produto</label>
                             <input type="number" class="form-control" id="txtCodProduto" name="txtCodProduto" value="${produto.codigo}" <c:if test="${operacao != 'Incluir'}">readonly</c:if> required>
                         </div>
                         
                         <div class="form-group">
-                            <label for=""txtNomeCliente>Nome Produto</label>
+                            <label for=""txtNomeProduto>Nome Produto</label>
                             <input type="txt" class="form-control" id="txtNomeProduto" name="txtNomeProduto" value="${produto.nome}"<c:if test="${operacao == 'Excluir'}">readonly</c:if> required>
                         </div>
                         

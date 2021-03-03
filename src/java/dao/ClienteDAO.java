@@ -94,9 +94,10 @@ public class ClienteDAO extends DAO {
         String stringSQL = null;
         try {
             conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
             stringSQL = "update cliente set "
                     + "nome = '" + cliente.getNome() + "', "
-                    + "email = " + cliente.getEmail() + "', "
+                    + "email = '" + cliente.getEmail() + "' "
                     + "where codigo = " + cliente.getCodigo();
             comando.execute(stringSQL);
         } finally {
@@ -110,6 +111,7 @@ public class ClienteDAO extends DAO {
         String stringSQL = null;
         try {
             conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
             stringSQL = "delete from cliente where codigo = "
                     + cliente.getCodigo();
             comando.execute(stringSQL);

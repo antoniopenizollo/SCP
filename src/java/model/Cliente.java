@@ -32,7 +32,19 @@ public class Cliente {
     public static Cliente obterClientes(int codCliente) throws ClassNotFoundException, SQLException {
         return ClienteDAO.getInstancia().obterCliente(codCliente);
     }
-
+    
+    public void gravar() throws ClassNotFoundException, SQLException{
+        ClienteDAO.getInstancia().gravar(this);
+    }
+    
+    public void alterar() throws ClassNotFoundException, SQLException{
+        ClienteDAO.getInstancia().alterar(this);
+    }
+    
+    public void excluir() throws ClassNotFoundException, SQLException{
+        ClienteDAO.getInstancia().excluir(this);
+    }
+    
     public Integer getCodigo() {
         return codigo;
     }
