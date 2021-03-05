@@ -8,12 +8,15 @@ package model;
 import dao.ClienteDAO;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+//import util.Email;
 
 /**
  *
  * @author anton
  */
-public class Cliente {
+public class Cliente implements Observer{
     
     private Integer codigo;
     private String nome;
@@ -45,6 +48,7 @@ public class Cliente {
         ClienteDAO.getInstancia().excluir(this);
     }
     
+    
     public Integer getCodigo() {
         return codigo;
     }
@@ -67,5 +71,17 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    @Override
+    public void update(Observable pedidoObservado, Object arg1) {
+        if (pedidoObservado instanceof Pedido) {
+            Pedido pedido = (Pedido)pedidoObservado;
+//            Email.enviarEmail(
+//                    "Estado alterado de seu pedido!",
+//                    "Olá " + pedido.getCliente().getNome() + "! Seu pedido " + pedido.getNumero() + " mudou para o estado " + pedido.getNomeEstado() + ". Agradecemos sua preferência!",
+//                    pedido.getCliente().getEmail());
+            //System.err.println("Olá " + pedido.getCliente() + "! Seu pedido " + pedido.getNumero() + " mudou para o estado " + pedido.getNomeEstado() + ". Agradecemos sua preferência!");
+        }
     }
 }

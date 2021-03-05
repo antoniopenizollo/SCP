@@ -20,6 +20,10 @@
         <servlet-name>EfetuarPedidoController</servlet-name>
         <servlet-class>controller.EfetuarPedidoController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GerenciarPedidosController</servlet-name>
+        <servlet-class>controller.GerenciarPedidosController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PesquisaClienteController</servlet-name>
         <url-pattern>/PesquisaClienteController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>EfetuarPedidoController</servlet-name>
         <url-pattern>/EfetuarPedidoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GerenciarPedidosController</servlet-name>
+        <url-pattern>/GerenciarPedidosController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
