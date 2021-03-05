@@ -5,13 +5,20 @@
  */
 package dao;
 
+import model.Pedido;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.Cliente;
 import model.ItemPedido;
-import model.Pedido;
+import model.PedidoEstado;
+import model.PedidoEstadoEnviado;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,6 +35,64 @@ public class PedidoDAO extends DAO{
 
     }
 
+    public Pedido obterPedido(int numero) throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        Pedido pedido = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from pedido where numero = " + numero);
+            while(rs.next()){
+                pedido = instanciarPedido(rs);
+            }
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return pedido;
+    }
+    
+    public List<Pedido> obterPedidos() throws ClassNotFoundException, SQLException {
+        Connection conexao = null;
+        Statement comando = null;
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        Pedido pedido = null;
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            ResultSet rs = comando.executeQuery("select * from pedido");
+            while (rs.next()) {
+                pedido = instanciarPedido(rs);
+                pedidos.add(pedido);
+            }
+        } finally {
+            fecharConexao(conexao, comando);
+        }
+        return pedidos;
+    }
+    
+    public Pedido instanciarPedido(ResultSet rs) throws SQLException {
+        Class classe = null;
+        Object objeto = null;
+        Pedido pedido = null;
+        try {
+            classe = Class.forName("model.PedidoEstado" + rs.getString("status"));
+            objeto = classe.newInstance();
+            
+            pedido = new Pedido(
+                    rs.getInt("numero"),
+                    Cliente.obterClientes(rs.getInt("cod_cliente")),
+                    rs.getDate("data_venda"),
+                    rs.getFloat("valor_total"),
+                    null,
+                    (PedidoEstado) objeto);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+        }
+        return pedido;
+    }
+    
     public int gravar(Pedido pedido) throws ClassNotFoundException, SQLException {
         Connection conexao = null;
         PreparedStatement comando = null;
@@ -35,25 +100,25 @@ public class PedidoDAO extends DAO{
         try {
             conexao = BD.getInstancia().getConecao();
             conexao.setAutoCommit(false);
-            comando = conexao.prepareStatement("insert into pedido (cod_cliente, data_venda, valor_total) values (?,?,?)",
+            comando = conexao.prepareStatement(
+                    "insert into pedido (cod_cliente, data_venda, valor_total, status) values (?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-
-             //comando = conexao.prepareStatement("insert into pedido (cod_cliente, data_venda, valor_total, status) values (?,?,?,?)",
-            //       Statement.RETURN_GENERATED_KEYS);
             comando.setInt(1, pedido.getCliente().getCodigo());
             comando.setDate(2, new java.sql.Date(pedido.getDataPedido().getTime()));
             comando.setFloat(3, pedido.getValorTotal());
-            //comando.setString(4, pedido.getPedidoEstado());
+            comando.setString(4, pedido.getPedidoEstado().getNome()); //pedido.getPedidoEstado().getNome()
             comando.executeUpdate();
-
+            
             ResultSet rs = comando.getGeneratedKeys();
             id = 0;
             if (rs.next()) {
                 id = rs.getInt(1);
             }
+                
             int num_item = 0;
             for (ItemPedido item : pedido.getItensPedido()) {
-                comando = conexao.prepareStatement("insert into item_pedido (num_pedido, num_item, cod_produto, quantidade, valor_unitario) values (?,?,?,?,?)");
+                comando = conexao.prepareStatement(
+                        "insert into item_pedido (num_pedido, num_item, cod_produto, quantidade, valor_unitario) values (?,?,?,?,?)");
                 num_item = num_item + 1;
                 comando.setInt(1, id);
                 comando.setInt(2, num_item);
@@ -62,14 +127,29 @@ public class PedidoDAO extends DAO{
                 comando.setFloat(5, item.getPrecoUnitario());
                 comando.executeUpdate();
             }
-
             conexao.commit();
         } catch (SQLException e) {
             conexao.rollback();
         } finally {
             fecharConexao(conexao, comando);
         }
-
         return id;
+    }
+    
+    public void alterarEstado(Pedido pedido) throws SQLException, ClassNotFoundException {
+        Connection conexao = null;
+        Statement comando = null;
+        String stringSQL;
+        
+        try {
+            conexao = BD.getInstancia().getConecao();
+            comando = conexao.createStatement();
+            stringSQL = "update pedido set "
+                    + "status = '" + pedido.getPedidoEstado().getNome() + "' "
+                    + "where numero = " + pedido.getNumero();
+            comando.execute(stringSQL);
+        } finally {
+            fecharConexao(conexao, comando);
+        }
     }
 }
