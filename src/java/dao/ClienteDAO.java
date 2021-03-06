@@ -35,7 +35,7 @@ public class ClienteDAO extends DAO {
         Cliente cliente = null;
 
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from cliente where codigo = " + codCliente);
             while(rs.next()){
@@ -53,7 +53,7 @@ public class ClienteDAO extends DAO {
         List<Cliente> clientes = new ArrayList<Cliente>();
         Cliente cliente = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from cliente");
             while(rs.next()){
@@ -77,7 +77,7 @@ public class ClienteDAO extends DAO {
         Connection conexao = null;
         PreparedStatement comando = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.prepareStatement("insert into cliente (codigo,nome,email) values (?,?,?)");
             comando.setInt(1, cliente.getCodigo());
             comando.setString(2, cliente.getNome());
@@ -93,7 +93,7 @@ public class ClienteDAO extends DAO {
         Statement comando = null;
         String stringSQL = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             stringSQL = "update cliente set "
                     + "nome = '" + cliente.getNome() + "', "
@@ -110,7 +110,7 @@ public class ClienteDAO extends DAO {
         Statement comando = null;
         String stringSQL = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             stringSQL = "delete from cliente where codigo = "
                     + cliente.getCodigo();

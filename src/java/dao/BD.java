@@ -20,7 +20,7 @@ public class BD {
     }
     private BD(){}
     
-    public Connection getConecao() throws ClassNotFoundException, SQLException{
+    public Connection getConexao() throws ClassNotFoundException, SQLException{
         Connection conexao = null;
         Class.forName("org.postgresql.Driver");
         conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scp","postgres","admin");

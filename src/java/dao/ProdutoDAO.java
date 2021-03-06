@@ -35,7 +35,7 @@ public class ProdutoDAO extends DAO {
         Produto produto = null;
 
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from produto where codigo = " + codProduto);
              while(rs.next()){
@@ -55,7 +55,7 @@ public class ProdutoDAO extends DAO {
         Produto produto = null;
 
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from produto");
             while(rs.next()){
@@ -78,7 +78,7 @@ public class ProdutoDAO extends DAO {
         Connection conexao = null;
         PreparedStatement comando = null;
         try{
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.prepareStatement("insert into produto (codigo,nome,preco) values (?,?,?)");
             comando.setInt(1, produto.getCodigo());
             comando.setString(2,produto.getNome());
@@ -94,7 +94,7 @@ public class ProdutoDAO extends DAO {
         Statement comando = null;
         String stringSQL = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             stringSQL = "update produto set "
                     + "nome = '" + produto.getNome() + "', "
@@ -111,7 +111,7 @@ public class ProdutoDAO extends DAO {
         Statement comando = null;
         String stringSQL = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             stringSQL = "delete from produto where codigo = "
                     + produto.getCodigo();

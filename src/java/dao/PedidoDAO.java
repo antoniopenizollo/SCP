@@ -40,7 +40,7 @@ public class PedidoDAO extends DAO{
         Statement comando = null;
         Pedido pedido = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from pedido where numero = " + numero);
             while(rs.next()){
@@ -58,7 +58,7 @@ public class PedidoDAO extends DAO{
         List<Pedido> pedidos = new ArrayList<Pedido>();
         Pedido pedido = null;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             ResultSet rs = comando.executeQuery("select * from pedido");
             while (rs.next()) {
@@ -98,7 +98,7 @@ public class PedidoDAO extends DAO{
         PreparedStatement comando = null;
         int id = 0;
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             conexao.setAutoCommit(false);
             comando = conexao.prepareStatement(
                     "insert into pedido (cod_cliente, data_venda, valor_total, status) values (?,?,?,?)",
@@ -142,7 +142,7 @@ public class PedidoDAO extends DAO{
         String stringSQL;
         
         try {
-            conexao = BD.getInstancia().getConecao();
+            conexao = BD.getInstancia().getConexao();
             comando = conexao.createStatement();
             stringSQL = "update pedido set "
                     + "status = '" + pedido.getPedidoEstado().getNome() + "' "
