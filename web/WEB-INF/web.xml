@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>PesquisaClienteController</servlet-name>
-        <servlet-class>controller.PesquisaClienteController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>PesquisaProdutoController</servlet-name>
-        <servlet-class>controller.PesquisaProdutoController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ManterClienteController</servlet-name>
         <servlet-class>controller.ManterClienteController</servlet-class>
     </servlet>
@@ -24,14 +16,10 @@
         <servlet-name>GerenciarPedidosController</servlet-name>
         <servlet-class>controller.GerenciarPedidosController</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>PesquisaClienteController</servlet-name>
-        <url-pattern>/PesquisaClienteController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PesquisaProdutoController</servlet-name>
-        <url-pattern>/PesquisaProdutoController</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>controller.FrontController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManterClienteController</servlet-name>
         <url-pattern>/ManterClienteController</url-pattern>
@@ -47,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>GerenciarPedidosController</servlet-name>
         <url-pattern>/GerenciarPedidosController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/FrontController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

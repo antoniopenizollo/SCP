@@ -45,7 +45,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for=""txtEmailCliente>Email do cliente</label>
+                            <label for="txtEmailCliente">Email do cliente</label>
                             <input type="email" class="form-control" id="txtEmailCliente" name="txtEmailCliente" value="${cliente.email}"<c:if test="${operacao == 'Excluir'}">readonly</c:if> required>
                         </div>
                         
