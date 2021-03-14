@@ -35,7 +35,7 @@
                     var tr = $(item).closest('tr');
                     var numero = tr.find('td[data-numero]').data('numero');
                     $.ajax({
-                        url: 'GerenciarPedidosController?acao=mudarEstado',
+                        url: 'FrontController?action=GerenciarPedidos&acao=mudarEstado',
                         method: 'POST',
                         data: {numero: numero,
                             estado: estado},
