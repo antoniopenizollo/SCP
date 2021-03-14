@@ -20,25 +20,23 @@ import model.Cliente;
  *
  * @author anton
  */
-public class PesquisarClienteAction implements Action{
+public class PesquisarClienteAction implements Action {
+
     public PesquisarClienteAction() {
-        
+
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try {
+            response.setContentType("text/html;charset=UTF-8");
             request.setAttribute("clientes", Cliente.obterClientes());
-            RequestDispatcher view =
-                    request.getRequestDispatcher("/pesquisaCliente.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("/pesquisaCliente.jsp");
             view.forward(request, response);
-        }catch (ClassNotFoundException | SQLException e) {
-            try {
-                throw new ServletException(e);
-            } catch (ServletException ex) {
-                Logger.getLogger(PesquisarClienteAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PesquisarClienteAction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisarClienteAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ServletException ex) {
             Logger.getLogger(PesquisarClienteAction.class.getName()).log(Level.SEVERE, null, ex);
         }
