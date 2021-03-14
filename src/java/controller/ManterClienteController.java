@@ -84,7 +84,7 @@ public class ManterClienteController extends HttpServlet {
                     }
                 }
             }
-            RequestDispatcher view = request.getRequestDispatcher("PesquisaClienteController");
+            RequestDispatcher view = request.getRequestDispatcher("FrontController?action=PesquisarCliente");
             view.forward(request, response);
         } catch (IOException e) {
             throw new ServletException(e);
